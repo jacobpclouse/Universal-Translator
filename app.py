@@ -19,8 +19,9 @@ app = Flask(__name__)
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 @app.route('/',methods=['GET', 'POST'])
 def translate():
-    title = "Index - Jacob Clouse Universal Translator"
-    return render_template('translate.html', html_title = title)
+    dashboardHeader = "Speech to Speech" # in base temp, basically what this page does
+    title = "Speech to Speech - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
+    return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
 
 
 

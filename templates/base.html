@@ -26,7 +26,11 @@
 						<div id="logo">
 							<!-- <span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span> -->
 							<span class="image avatar48"><img src="{{ url_for('static', filename='/images/logo.png') }}" alt="" /></span>
-							<h1 id="title">Main Dashboard</h1>
+							<!-- <h1 id="title">Main Dashboard</h1> -->
+
+							{% block dash_title %}
+							<h1 id="title">{{dash_head}}</h1>
+							{% endblock %}
 							<p>Universal Translator</p>
 						</div>
 
