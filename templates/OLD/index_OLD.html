@@ -6,10 +6,14 @@
 -->
 <html>
 	<head>
-		<title>Prologue by HTML5 UP</title>
+		  <!-- Title -->
+		{% block header_title %}
+		  <title class="html_title"> {{html_title}}</title> 
+		{% endblock %}
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- <link rel="stylesheet" href="assets/css/main.css" /> -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/main.css') }}" />
 	</head>
 	<body class="is-preload">
 
@@ -20,9 +24,10 @@
 
 					<!-- Logo -->
 						<div id="logo">
-							<span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span>
-							<h1 id="title">Jane Doe</h1>
-							<p>Hyperspace Engineer</p>
+							<!-- <span class="image avatar48"><img src="images/avatar.jpg" alt="" /></span> -->
+							<span class="image avatar48"><img src="{{ url_for('static', filename='/images/avatar.jpg') }}" alt="" /></span>
+							<h1 id="title">Main Dashboard</h1>
+							<p>Universal Translator</p>
 						</div>
 
 					<!-- Nav -->
