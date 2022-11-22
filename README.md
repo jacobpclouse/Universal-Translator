@@ -9,3 +9,4 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - Language Translation Using Python: https://towardsdatascience.com/language-translation-using-python-bd8020772ccc
 - Access microphone from a browser - Javascript: https://stackoverflow.com/questions/27846392/access-microphone-from-a-browser-javascript
 - Recording Audio from the User: https://web.dev/media-recording-audio/
+- Sending Audio Files to Your Express.js Server: https://blog.deepgram.com/sending-audio-files-to-expressjs-server/
