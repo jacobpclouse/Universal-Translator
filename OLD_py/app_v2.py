@@ -23,7 +23,7 @@ def translate():
     title = "Speech to Speech - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
     
     if request.method == 'POST':
-       
+        app.logger.debug(request.files['file'].filename) 
         # files = request.files
         # file = files.get('file')
         # print(file)

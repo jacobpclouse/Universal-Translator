@@ -15,3 +15,4 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - How can I get the blob file (i.e recorder voice) to send the server: https://github.com/mattdiamond/Recorderjs/issues/188
 - send blob to python flask and then save it: https://stackoverflow.com/questions/70733510/send-blob-to-python-flask-and-then-save-it
 - No 'Access-Control-Allow-Origin' header is present on the requested resource—when trying to get data from a REST API: https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
+- Upload Blob To Server With Code Examples: https://www.folkstalk.com/2022/09/upload-blob-to-server-with-code-examples.html

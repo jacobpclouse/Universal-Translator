@@ -41,6 +41,8 @@ const handleSuccess = function(stream) {
     downloadLink.download = 'recordedAudio1.wav';
     const audioBlob = new Blob(recordedChunks, { type: "audio/wav" })
 
+    const audioFile = new File(recordedChunks, "recordedAudio.wav")
+
     // // Send data to flask backend xhr
     // var xhr = new XMLHttpRequest();
     // var fd = new FormData();
@@ -53,18 +55,39 @@ const handleSuccess = function(stream) {
     // xhr.open("POST", "/");
     // xhr.send(fd);
 
-    var data = new FormData()
-    data.append('file', audioBlob, 'file')
+    // ---- ----------------------------------
 
-    fetch('http://127.0.0.1:5000/', {
-        mode: 'no-cors',
-        method: 'POST',
-        body: data
+    // var data = new FormData()
+    // data.append('file', audioBlob, 'file')
 
-    }).then(response => response.json()
-    ).then(json => {
-        console.log(json)
+    // fetch('http://127.0.0.1:5000/', {
+
+    //     method: 'POST',
+    //     body: data
+
+    // }).then(response => response.json()
+    // ).then(json => {
+    //     console.log(json)
+    // });
+
+
+   // ---- ----------------------------------
+
+
+    var fd = new FormData();
+    fd.append('fname', 'recordedAudio.wav');
+    fd.append('data', audioBlob);
+    $.ajax({
+        type: 'POST',
+        url: '/',
+        data: fd,
+        processData: false,
+        contentType: 'audio/wav'
+    }).done(function(data) {
+          console.log(data);
     });
+
+
 
   });
 
@@ -81,3 +104,6 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
 
 
+
+
+    //https://www.folkstalk.com/2022/09/upload-blob-to-server-with-code-examples.html
