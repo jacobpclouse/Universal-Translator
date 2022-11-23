@@ -35,17 +35,28 @@ def translate():
     if request.method == 'POST':
         # Grab current date & time from function & store in variable
         use_this_datetime = defang_datetime()
-        outputMP3Name = f'output{use_this_datetime}'
 
         # had issues importing audio data below, used this link to gather data: https://stackoverflow.com/questions/65632555/sending-wav-file-from-frontend-to-flask-backend
         print(request.files)
-        audioRecordingData = request.files['audio-file'].read()
-        print(audioRecordingData)
+        data = request.files['audio-file'].read()
+        print(data)
 
-       
+        #audio = request.form["audio-file"] # what is the name of form data being sent?
+        # files = request.files
+        # file = files.get('file')
+        # print(file)
+
+        # with open(os.path.abspath(f'./UPLOADS/output.wav'), 'wb') as f:
+        #     f.write(file.content)
+
+
+        # audio = request.data  
+        # print(audio)    
+
+        
         # save to file
-        with open(os.path.abspath(f'./UPLOADS/{outputMP3Name}.mp3'), 'wb') as f:
-            f.write(audioRecordingData)
+        with open(os.path.abspath(f'./UPLOADS/output{use_this_datetime}.mp3'), 'wb') as f:
+            f.write(data)
 
     return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
 
