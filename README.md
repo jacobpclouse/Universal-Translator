@@ -16,3 +16,6 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - send blob to python flask and then save it: https://stackoverflow.com/questions/70733510/send-blob-to-python-flask-and-then-save-it
 - No 'Access-Control-Allow-Origin' header is present on the requested resource—when trying to get data from a REST API: https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
 - Upload Blob To Server With Code Examples: https://www.folkstalk.com/2022/09/upload-blob-to-server-with-code-examples.html
+- *** access to fetch at from origin has been blocked by cors policy: https://www.codegrepper.com/search.php?answer_removed=1&q=access%20to%20fetch%20at%20from%20origin%20has%20been%20blocked%20by%20cors%20policy
+- *** How to convert a blob URL to a audio file and save it to the server: https://stackoverflow.com/questions/60431835/how-to-convert-a-blob-url-to-a-audio-file-and-save-it-to-the-server
+- *** How to receive wav file from blob in flask sever?: https://stackoverflow.com/questions/60835237/how-to-receive-wav-file-from-blob-in-flask-sever
