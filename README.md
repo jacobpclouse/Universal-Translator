@@ -21,3 +21,4 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - *** How to receive wav file from blob in flask sever?: https://stackoverflow.com/questions/60835237/how-to-receive-wav-file-from-blob-in-flask-sever
 - *** Sending .wav file from frontend to Flask backend: https://stackoverflow.com/questions/65632555/sending-wav-file-from-frontend-to-flask-backend
 - Get selected value in dropdown list using JavaScript: https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
+- Transcribe Audio (with Python): https://pythonbasics.org/transcribe-audio/
