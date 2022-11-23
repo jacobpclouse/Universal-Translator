@@ -40,7 +40,19 @@ def translate():
         # had issues importing audio data below, used this link to gather data: https://stackoverflow.com/questions/65632555/sending-wav-file-from-frontend-to-flask-backend
         print(request.files)
         audioRecordingData = request.files['audio-file'].read()
-        print(audioRecordingData)
+        print(request.data)
+        print(request.form) # form data incoming as this
+
+
+        # print(audioRecordingData)
+        defaultSourceValue = 'English'
+        defaultDestinationValue = 'Spanish'
+
+        # recieving source and destination data from form data (have default values just in case)
+        sourceLanguage = request.form.get('source-language',defaultSourceValue)
+        destinationLanguage = request.form.get('destination-language',defaultDestinationValue)
+        print(sourceLanguage)
+        print(destinationLanguage)
 
        
         # save to file

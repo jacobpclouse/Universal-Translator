@@ -1,6 +1,16 @@
 // send to server  
 const sendAudioFile = file => {
+
+  // get vars from dropdowns
+  var sourceLangVal = document.getElementById("sourceLangID").value; // coming from this language
+  var destLangVal = document.getElementById("destinationLangID").value; // going to this language
+  console.log(sourceLangVal)
+  console.log(destLangVal)
+
   const formData = new FormData();
+  formData.append('source-language', sourceLangVal)
+  formData.append('destination-language', destLangVal)
+
   formData.append('audio-file', file);
   return fetch('http://localhost:5000/audioUpload', {
     mode: 'no-cors',
@@ -37,13 +47,10 @@ const handleSuccess = function(stream) {
     downloadLink.download = 'microphoneAudio.mp3';
 
 //   // Create a Blob when recording has stopped.
-      // recorder.addEventListener('stop', () => {
       const blob = new Blob(recordedChunks, { 
         'type': 'audio/mp3' 
         });
         sendAudioFile(blob);
-      // });
-
 
 
   });
@@ -53,7 +60,7 @@ const handleSuccess = function(stream) {
     mediaRecorder.stop();
   });
 
-//   mediaRecorder.start();
+
 };
 // only want audio, not webcam
 navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -61,33 +68,4 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
 
 // // ----------------------------------
-// navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-//   // Collection for recorded data.
-//   let data = [];
 
-//   // Recorder instance using the stream.
-//   // Also set the stream as the src for the audio element.
-//   const recorder = new MediaRecorder(stream);
-//   audio.srcObject = stream;
-
-//   recorder.addEventListener('start', e => {
-//     // Empty the collection when starting recording.
-//     data.length = 0;
-//   });
-
-//   recorder.addEventListener('dataavailable', event => {
-//     // Push recorded data to collection.
-//     data.push(event.data);
-//   });
-
-//   // Create a Blob when recording has stopped.
-//   recorder.addEventListener('stop', () => {
-//     const blob = new Blob(data, { 
-//       'type': 'audio/mp3' 
-//     });
-//     sendAudioFile(blob);
-//   });
-
-//   // Start the recording.
-//   recorder.start();
-// });
