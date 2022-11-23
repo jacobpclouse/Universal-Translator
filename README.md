@@ -20,3 +20,4 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - *** How to convert a blob URL to a audio file and save it to the server: https://stackoverflow.com/questions/60431835/how-to-convert-a-blob-url-to-a-audio-file-and-save-it-to-the-server
 - *** How to receive wav file from blob in flask sever?: https://stackoverflow.com/questions/60835237/how-to-receive-wav-file-from-blob-in-flask-sever
 - *** Sending .wav file from frontend to Flask backend: https://stackoverflow.com/questions/65632555/sending-wav-file-from-frontend-to-flask-backend
+- 
