@@ -38,34 +38,7 @@ const handleSuccess = function(stream) {
   // Event saves + downloads file
   mediaRecorder.addEventListener('stop', function() {
     downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-    downloadLink.download = 'recordedAudio1.wav';
-    const audioBlob = new Blob(recordedChunks, { type: "audio/wav" })
-
-    // // Send data to flask backend xhr
-    // var xhr = new XMLHttpRequest();
-    // var fd = new FormData();
-    // fd.append("fileUpload0", audioBlob);
-
-    // //fd.append("fileupload",URL.createObjectURL(new Blob(recordedChunks)))
-    // fd.append("SourceLang", document.getElementById("sourceLang"));
-    // fd.append("DestinationLang", document.getElementById("destinationLang"));
-
-    // xhr.open("POST", "/");
-    // xhr.send(fd);
-
-    var data = new FormData()
-    data.append('file', audioBlob, 'file')
-
-    fetch('http://127.0.0.1:5000/', {
-        mode: 'no-cors',
-        method: 'POST',
-        body: data
-
-    }).then(response => response.json()
-    ).then(json => {
-        console.log(json)
-    });
-
+    downloadLink.download = 'recordedAudio.wav';
   });
 
   // Event stops recording
@@ -81,3 +54,10 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
 
 
+// Send data to flask backend
+var xhr = new XMLHttpRequest();
+var fd = new FormData();
+// fd.append("fileUpload0", blob);
+fd.append(recordedChunks, blob);
+fd.append("User", document.getElementById("Id_Card").getAttribute("data-hiddenId"));
+fd.append("Rec", recnumber);

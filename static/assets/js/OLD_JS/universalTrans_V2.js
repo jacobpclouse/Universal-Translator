@@ -38,33 +38,20 @@ const handleSuccess = function(stream) {
   // Event saves + downloads file
   mediaRecorder.addEventListener('stop', function() {
     downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-    downloadLink.download = 'recordedAudio1.wav';
+    downloadLink.download = 'recordedAudio.wav';
     const audioBlob = new Blob(recordedChunks, { type: "audio/wav" })
 
-    // // Send data to flask backend xhr
-    // var xhr = new XMLHttpRequest();
-    // var fd = new FormData();
-    // fd.append("fileUpload0", audioBlob);
+    // Send data to flask backend xhr
+    var xhr = new XMLHttpRequest();
+    var fd = new FormData();
+    fd.append("fileUpload0", audioBlob);
 
-    // //fd.append("fileupload",URL.createObjectURL(new Blob(recordedChunks)))
-    // fd.append("SourceLang", document.getElementById("sourceLang"));
-    // fd.append("DestinationLang", document.getElementById("destinationLang"));
+    //fd.append("fileupload",URL.createObjectURL(new Blob(recordedChunks)))
+    fd.append("SourceLang", document.getElementById("sourceLang"));
+    fd.append("DestinationLang", document.getElementById("destinationLang"));
 
-    // xhr.open("POST", "/");
-    // xhr.send(fd);
-
-    var data = new FormData()
-    data.append('file', audioBlob, 'file')
-
-    fetch('http://127.0.0.1:5000/', {
-        mode: 'no-cors',
-        method: 'POST',
-        body: data
-
-    }).then(response => response.json()
-    ).then(json => {
-        console.log(json)
-    });
+    xhr.open("POST", "/");
+    xhr.send(fd);
 
   });
 
