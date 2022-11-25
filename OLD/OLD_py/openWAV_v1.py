@@ -41,33 +41,15 @@ def transcribe_languages(filename,sourceLang,destLang):
         # listen for the data (load audio to memory)
         audio_data = r.record(source)
         # recognize (convert from speech to text)
-        transcription = r.recognize_google(audio_data,language = sourceLang, show_all = True )
-        print(transcription)
-        print(type(transcription))
-        print(f"Transcript Keys: {transcription.keys()}") # finding keys
-        
-        # values are stored in dict in list in dict (who designed this??)
-        alternatives = transcription['alternative']
-        print(type(alternatives))
-        alt1 = alternatives[1]
-        print(type(alt1))
-        translated_text = alt1['transcript']
-        print(type(translated_text))
-        print(translated_text)
-
-
-    # # # save string to file
-
-    text_file = open("outText.txt", "w")
-    n = text_file.write(translated_text)
-    text_file.close()
+        text = r.recognize_google(audio_data)
+        print(text)
 
 
 # -=-=-=-
 
 
-sourcelang1 = 'en-US'
-destlang1 = 'en-US'
+sourcelang1 = 'english'
+destlang1 = 'spanish'
 
 filename1 = 'engToeng.wav'
 

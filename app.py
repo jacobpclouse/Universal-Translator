@@ -7,6 +7,9 @@ from os import path
 import datetime
 from pydub import AudioSegment
 import speech_recognition as sr
+import librosa
+import soundfile as sf
+import wave
 
 app = Flask(__name__)
 
@@ -34,19 +37,32 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
     print(f"Source language: {sourceLang}")
     print(f"Destination language: {destLang}")
     origFileToConvert = f'{pathToFile}{filename}.wav'
+
+
+    tempFileName = 'tempfilename.wav'
     print(f"Opening: {origFileToConvert}")
+
+    # convert to temp file
+    # # https://stackoverflow.com/questions/25672289/failed-to-open-file-file-wav-as-a-wav-due-to-file-does-not-start-with-riff-id
+    x,_ = librosa.load(origFileToConvert, sr=16000)
+    sf.write(f"{pathToFile}{tempFileName}", x, 16000)
+    wave.open(f"{pathToFile}{tempFileName}",'r')
 
     # initialize the recognizer
     r = sr.Recognizer()
 
-
     # open the file
-    with sr.AudioFile(origFileToConvert) as source:
+    with sr.AudioFile(f"{pathToFile}{tempFileName}") as source:
         # listen for the data (load audio to memory)
         audio_data = r.record(source)
         # recognize (convert from speech to text)
-        text = r.recognize_google(audio_data)
-        print(text)
+        # transcription = r.recognize_google(audio_data)
+        transcription = r.recognize_google(audio_data,language = sourceLang, show_all = True )
+        print(transcription)
+
+    # save to file
+    with open(os.path.abspath(f'{pathToFile}{filename}.txt'), 'wb') as f:
+        f.write(transcription)
 
 '''
 def transcribe_languages(pathToFile,filename,sourceLang,destLang):
