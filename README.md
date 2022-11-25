@@ -22,3 +22,5 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - *** Sending .wav file from frontend to Flask backend: https://stackoverflow.com/questions/65632555/sending-wav-file-from-frontend-to-flask-backend
 - Get selected value in dropdown list using JavaScript: https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
 - Transcribe Audio (with Python): https://pythonbasics.org/transcribe-audio/
+- How to Convert Speech to Text in Python: https://www.thepythoncode.com/article/using-speech-recognition-to-convert-speech-to-text-python
+- Google Speech Rec Supported languages and codes: https://cloud.google.com/speech-to-text/docs/speech-to-text-supported-languages

@@ -44,12 +44,11 @@ const handleSuccess = function(stream) {
   // Event saves + downloads file
   mediaRecorder.addEventListener('stop', function() {
     downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-    downloadLink.download = 'microphoneAudioWAV.wav';
+    downloadLink.download = 'microphoneAudio.mp3';
 
 //   // Create a Blob when recording has stopped.
       const blob = new Blob(recordedChunks, { 
-        // 'type': 'audio/mp3' 
-        'type': 'audio/wav' 
+        'type': 'audio/mp3' 
         });
         sendAudioFile(blob);
 
