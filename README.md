@@ -24,3 +24,9 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - Transcribe Audio (with Python): https://pythonbasics.org/transcribe-audio/
 - How to Convert Speech to Text in Python: https://www.thepythoncode.com/article/using-speech-recognition-to-convert-speech-to-text-python
 - Google Speech Rec Supported languages and codes: https://cloud.google.com/speech-to-text/docs/speech-to-text-supported-languages
+- Check if variable is a dictionary: https://stackabuse.com/python-check-if-variable-is-a-dictionary/
+- How to Write String to Text File in Python?: https://pythonexamples.org/python-write-string-to-text-file/
+- Speech Recognition UnknownValueError: https://stackoverflow.com/questions/56359106/speech-recognition-unknownvalueerror
+- Failed to open file file.wav as a WAV due to: file does not start with RIFF id: https://stackoverflow.com/questions/25672289/failed-to-open-file-file-wav-as-a-wav-due-to-file-does-not-start-with-riff-id
+- How to translate text with python: https://medium.com/analytics-vidhya/how-to-translate-text-with-python-9d203139dcf5
+- How to change the language of Google speech recognition: https://stackoverflow.com/questions/49732536/how-to-change-the-language-of-google-speech-recognition

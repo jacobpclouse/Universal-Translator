@@ -10,8 +10,6 @@ import speech_recognition as sr
 import librosa
 import soundfile as sf
 import wave
-from deep_translator import MyMemoryTranslator
-import json
 
 app = Flask(__name__)
 
@@ -31,24 +29,8 @@ def defang_datetime():
     return current_datetime
 
 
-# --- Function to get JSON abbr of source language for Google speech to text ---
-def getSourceLangAbbr(fullSourceLang):
-    # Opening JSON file
-    JSONlangFile = open('./static/assets/languages.json')
-    # returns JSON object as a dictionary
-    JSONlangFiledata = json.load(JSONlangFile)
-  
-    # get abbriviation 
-    JSONAbbreviation = JSONlangFiledata[fullSourceLang]
-    print(f"JSON Abbr for {fullSourceLang} is {JSONAbbreviation}")
-    
-    # Closing file and return value
-    JSONlangFile.close()
-    return JSONAbbreviation
-
-
-
 # --- Function to Transcribe Speech ---
+
 def transcribe_languages(pathToFile,filename,sourceLang,destLang):
 
     # printing out source and destination languages, file to open
@@ -76,33 +58,56 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
 
         # Show_all will return a dict with a list with a dict inside that has your data
         transcription = r.recognize_google(audio_data,language = sourceLang, show_all = True )
+        
         print(transcription)
         print(type(transcription))
+        print(f"Transcript Keys: {transcription.keys()}") # finding keys
 
-        #if transcription is a dictionary file (ie: has data) or a list (ie: empty result)
-        if (type(transcription) is dict):
-            print("Valid Dict condition triggered")
-            print(f"Transcript Keys: {transcription.keys()}") # finding keys
-
-            # values are stored in dict in list in dict (who designed this??)
-            alternatives = transcription['alternative']
-            print(type(alternatives))
-            alt1 = alternatives[1]
-            print(type(alt1))
-            translated_text = alt1['transcript']
-            print(type(translated_text))
-            print(translated_text)
-        else:
-            print(f"Not a Dict type -- \n type is: {type(transcription)}")
-            translated_text = f"nothing in translated text or can't make it out, type was {type(transcription)}"
+        # values are stored in dict in list in dict (who designed this??)
+        alternatives = transcription['alternative']
+        print(type(alternatives))
+        alt1 = alternatives[1]
+        print(type(alt1))
+        translated_text = alt1['transcript']
+        print(type(translated_text))
+        print(translated_text)
 
 
     # # # save string to file
-
-    text_file = open(f"outText_{filename}.txt", "w")
+    text_file = open(f"{pathToFile}outText_{filename}.txt", "w")
     n = text_file.write(translated_text)
     text_file.close()
 
+'''
+def transcribe_languages(pathToFile,filename,sourceLang,destLang):
+
+    # printing out source and destination languages
+    print(f"Source language: {sourceLang}")
+    print(f"Destination language: {destLang}")
+
+    # convert mp3 file to wav
+    transcribed_filename = f"transcribed_{filename}"
+    # transcribe audio file                                                         
+    AUDIO_FILE = f"{transcribed_filename}.wav"
+    print(AUDIO_FILE)
+    
+    # converting
+    sound = AudioSegment.from_mp3(f"{pathToFile}{filename}.mp3")
+    sound.export(f"{pathToFile}{AUDIO_FILE}", format="wav")
+
+
+    # use the audio file as the audio source                                        
+    r = sr.Recognizer()
+    with sr.AudioFile(f"{pathToFile}{AUDIO_FILE}") as source:
+            audio = r.record(source)  # read the entire audio file                  
+
+            transcription = "Transcription: " + r.recognize_google(audio)
+            print(transcription)
+
+    # save to file
+    with open(os.path.abspath(f'{pathToFile}{transcribed_filename}.txt'), 'wb') as f:
+        f.write(transcription)
+'''    
 
 
 

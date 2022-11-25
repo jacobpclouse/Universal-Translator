@@ -18,7 +18,7 @@ def transcribe_languages(filename,sourceLang,destLang):
     # printing out source and destination languages, file to open
     print(f"Source language: {sourceLang}")
     print(f"Destination language: {destLang}")
-    file_path = f'./{filename}'
+    file_path = f'./{filename}.wav'
     tempFileName = 'tempfilename.wav'
     print(f"Opening: {file_path}")
 
@@ -28,9 +28,7 @@ def transcribe_languages(filename,sourceLang,destLang):
     x,_ = librosa.load(file_path, sr=16000)
     sf.write(tempFileName, x, 16000)
     wave.open(tempFileName,'r')
-    # sf.write(f'{filename}_tmp.wav', x, 16000)
-    # wave.open(f'{filename}_tmp.wav','r')
-
+ 
 
     # initialize the recognizer
     r = sr.Recognizer()
@@ -43,22 +41,30 @@ def transcribe_languages(filename,sourceLang,destLang):
         # recognize (convert from speech to text)
         transcription = r.recognize_google(audio_data,language = sourceLang, show_all = True )
         print(transcription)
-        print(type(transcription))
-        print(f"Transcript Keys: {transcription.keys()}") # finding keys
+        findType = type(transcription)
+        print(findType)
         
-        # values are stored in dict in list in dict (who designed this??)
-        alternatives = transcription['alternative']
-        print(type(alternatives))
-        alt1 = alternatives[1]
-        print(type(alt1))
-        translated_text = alt1['transcript']
-        print(type(translated_text))
-        print(translated_text)
+        # TRY/EXCEPT if empty file with no words
+        try:
+            print("Valid Dict condition triggered")
+            print(f"Transcript Keys: {transcription.keys()}") # finding keys
+
+            # values are stored in dict in list in dict (who designed this??)
+            alternatives = transcription['alternative']
+            print(type(alternatives))
+            alt1 = alternatives[1]
+            print(type(alt1))
+            translated_text = alt1['transcript']
+            print(type(translated_text))
+            print(translated_text)
+        except sr.RequestError as error:
+            print(f"Not a Dict type -- \n type is: {findType}, \n error is: {error}")
+            translated_text = f"nothing in translated text or can't make it out, type was {findType}"
 
 
     # # # save string to file
 
-    text_file = open("outText.txt", "w")
+    text_file = open(f"outText_{filename}.txt", "w")
     n = text_file.write(translated_text)
     text_file.close()
 
@@ -69,6 +75,9 @@ def transcribe_languages(filename,sourceLang,destLang):
 sourcelang1 = 'en-US'
 destlang1 = 'en-US'
 
-filename1 = 'engToeng.wav'
+filename1 = 'noSpeech'
+filename2 = 'engToeng'
+
 
 transcribe_languages(filename1,sourcelang1,destlang1)
+transcribe_languages(filename2,sourcelang1,destlang1)
