@@ -30,3 +30,4 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - Failed to open file file.wav as a WAV due to: file does not start with RIFF id: https://stackoverflow.com/questions/25672289/failed-to-open-file-file-wav-as-a-wav-due-to-file-does-not-start-with-riff-id
 - How to translate text with python: https://medium.com/analytics-vidhya/how-to-translate-text-with-python-9d203139dcf5
 - How to change the language of Google speech recognition: https://stackoverflow.com/questions/49732536/how-to-change-the-language-of-google-speech-recognition
+- Google Text To Speech Languages and Accents: https://gtts.readthedocs.io/en/latest/module.html#languages-gtts-lang

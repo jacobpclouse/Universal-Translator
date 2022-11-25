@@ -14,14 +14,10 @@ import wave
 
 from deep_translator import MyMemoryTranslator
 
-from gtts import gTTS
-JSONSourceLanguagesPath = '../../Languages/languages.json'
-JSONgTTSPath = '../../Languages/languagesOrig.json'
-
 # --- Function to get JSON abbr of source language for Google speech to text ---
-def getSourceLangAbbr(fullSourceLang,pathToJson):
+def getSourceLangAbbr(fullSourceLang):
     # Opening JSON file
-    JSONlangFile = open(pathToJson)
+    JSONlangFile = open('../../Languages/languages.json')
     # returns JSON object as a dictionary
     JSONlangFiledata = json.load(JSONlangFile)
   
@@ -39,7 +35,7 @@ def transcribe_languages(filename,sourceLang,destLang):
     # YOU HAVE TO HAVE THE INCOME AUDIO IN A WAVE FORMAT!!!
     
     # getting abreviation for source lang
-    AbbrSourceLang = getSourceLangAbbr(sourceLang,JSONSourceLanguagesPath)
+    AbbrSourceLang = getSourceLangAbbr(sourceLang)
 
     # printing out source and destination languages, file to open
     print(f"Source language: {sourceLang}")
@@ -88,38 +84,25 @@ def transcribe_languages(filename,sourceLang,destLang):
             print(transcribed_text)
 
             # translating data
-            translated = MyMemoryTranslator(source=sourceLang, target=destLang).translate(text=transcribed_text)
-
-            # converting to speech in destination language
-            AbbrgTTSLang = getSourceLangAbbr(destLang,JSONgTTSPath)
-            textToSpeech = gTTS(translated, lang=AbbrgTTSLang)
-            textToSpeech.save(f'outText_{filename}.mp3')
-
+            translated = MyMemoryTranslator(source="english", target=destLang).translate(text=transcribed_text)
 
         else:
             print(f"Not a Dict type -- \n type is: {findType}")
             translated = f"nothing in translated text or can't make it out, type was {findType}"
 
-            # converting to speech - use english as it failed
-            textToSpeech = gTTS(translated, lang='en')
-            textToSpeech.save(f'outText_{filename}.mp3')
-
 
     # # # save string to file
+
     text_file = open(f"outText_{filename}.txt", "w")
     n = text_file.write(translated)
     text_file.close()
-
-
-
-
 
 
 # -=-=-=-
 
 
 sourcelang1 = 'english'
-destlang1 = 'french'
+destlang1 = 'marathi'
 
 filename1 = 'noSpeech'
 filename2 = 'engToeng'

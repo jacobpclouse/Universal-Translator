@@ -12,13 +12,8 @@ import soundfile as sf
 import wave
 from deep_translator import MyMemoryTranslator
 import json
-from gtts import gTTS
 
 app = Flask(__name__)
-
-# paths to JSON files stored in vars
-JSONSourceLanguagesPath = './static/assets/languages.json'
-JSONgTTSPath = './static/assets/languagesOrig.json'
 
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -37,9 +32,9 @@ def defang_datetime():
 
 
 # --- Function to get JSON abbr of source language for Google speech to text ---
-def getSourceLangAbbr(fullSourceLang,pathToJson):
+def getSourceLangAbbr(fullSourceLang):
     # Opening JSON file
-    JSONlangFile = open(pathToJson)
+    JSONlangFile = open('./static/assets/languages.json')
     # returns JSON object as a dictionary
     JSONlangFiledata = json.load(JSONlangFile)
   
@@ -56,14 +51,9 @@ def getSourceLangAbbr(fullSourceLang,pathToJson):
 # --- Function to Transcribe Speech ---
 def transcribe_languages(pathToFile,filename,sourceLang,destLang):
 
-    # getting abreviation for source lang
-    AbbrSourceLang = getSourceLangAbbr(sourceLang,JSONSourceLanguagesPath)
-
-
     # printing out source and destination languages, file to open
     print(f"Source language: {sourceLang}")
     print(f"Destination language: {destLang}")
-    print(f"Abbr Source Lang: {AbbrSourceLang}")
     origFileToConvert = f'{pathToFile}{filename}.wav'
 
 
@@ -85,8 +75,7 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
         audio_data = r.record(source)
 
         # Show_all will return a dict with a list with a dict inside that has your data
-        #transcription = r.recognize_google(audio_data,language = sourceLang, show_all = True )
-        transcription = r.recognize_google(audio_data,language = AbbrSourceLang, show_all = True )
+        transcription = r.recognize_google(audio_data,language = sourceLang, show_all = True )
         print(transcription)
         print(type(transcription))
 
@@ -100,31 +89,20 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
             print(type(alternatives))
             alt1 = alternatives[1]
             print(type(alt1))
-            transcribed_text = alt1['transcript']
-            print(type(transcribed_text))
-            print(transcribed_text)
-
-            # translating data
-            translated = MyMemoryTranslator(source=sourceLang, target=destLang).translate(text=transcribed_text)
-
-
-            # converting to speech in destination language
-            AbbrgTTSLang = getSourceLangAbbr(destLang,JSONgTTSPath)
-            textToSpeech = gTTS(translated, lang=AbbrgTTSLang)
-            textToSpeech.save(f'{pathToFile}outText_{filename}.mp3')
-
+            translated_text = alt1['transcript']
+            print(type(translated_text))
+            print(translated_text)
         else:
             print(f"Not a Dict type -- \n type is: {type(transcription)}")
-            translated = f"nothing in translated text or can't make it out, type was {type(transcription)}"
+            translated_text = f"nothing in translated text or can't make it out, type was {type(transcription)}"
 
-            # converting to speech - use english as it failed
-            textToSpeech = gTTS(translated, lang='en')
-            textToSpeech.save(f'outText_{filename}.mp3')
 
     # # # save string to file
-    text_file = open(f"{pathToFile}outText_{filename}.txt", "w")
-    n = text_file.write(translated)
+
+    text_file = open(f"outText_{filename}.txt", "w")
+    n = text_file.write(translated_text)
     text_file.close()
+
 
 
 
