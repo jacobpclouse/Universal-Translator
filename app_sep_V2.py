@@ -16,8 +16,6 @@ from gtts import gTTS
 from pathlib import Path
 
 app = Flask(__name__)
-app.secret_key = 'super secret key'
-app.config['SESSION_TYPE'] = 'filesystem'
 
 # paths to JSON files stored in vars
 JSONSourceLanguagesPath = './static/assets/languages.json'
@@ -137,14 +135,28 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
     n = text_file.write(translated)
     text_file.close()
     return translated
+
+
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Routes
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-@app.route('/',methods=['GET', 'POST'])
-@app.route('/audioUpload',methods=['GET', 'POST'])
-def translate():
+# @app.route('/',methods=['GET', 'POST'])
+@app.route('/',methods=['GET'])
+def dashboard():
     dashboardHeader = "Speech to Speech" # in base temp, basically what this page does
     title = "Speech to Speech - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
+    
+    translated = request.args.get('translated')
+    # translated = request.args.get('translated', default = 1, type = str)
+
+    # return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = translated)
+    return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = translated)
+
+
+@app.route('/audioUpload',methods=['POST'])
+def translate():
+    dashboardHeader = "IT WORKED" # in base temp, basically what this page does
+    title = "IT WORKED" # in base temp, actual page title in browser
     
     returned_translated = "Translated text will display here"
 
@@ -187,26 +199,17 @@ def translate():
         print(returned_translated)
         # 
 
-# """ This Will let the user download the file, then deletes all files in outbound and uploads """
-        try:
-        #     #return send_from_directory("./OUTBOUND","encryptedMessage.mp3",as_attachment=True)
-        #     #send_from_directory("./UPLOADS","mykey.key",as_attachment=True)
-            
-            return send_from_directory("./UPLOADS","RETURNTOFRONTEND.mp3",as_attachment=True)
-            
-        except FileNotFoundError:
-            os.abort(404)
-
-        finally:
-        #     # this cleans out both upload and outbound folders
-            emptyFolder("./UPLOADS")
-            
-    # flash(returned_translated)
-        return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
-    elif request.method == 'GET':
-        return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
+    return redirect(url_for('dashboard', translated = returned_translated))  
+    # return redirect(url_for('dashboard', translated = returned_translated), code=307)  
+    # return redirect(url_for('dashboard', html_title = title, dash_head = dashboardHeader, translated = returned_translated))    
+    
+    
+    
+    #     return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+    # else:
+    #     return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
     # return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
-    # return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+    #return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
 
 
 
