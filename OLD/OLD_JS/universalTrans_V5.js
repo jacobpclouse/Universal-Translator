@@ -7,7 +7,6 @@ const sendAudioFile = file => {
   console.log(sourceLangVal)
   console.log(destLangVal)
 
-
   const formData = new FormData();
   formData.append('source-language', sourceLangVal)
   formData.append('destination-language', destLangVal)
@@ -52,10 +51,7 @@ const handleSuccess = function(stream) {
         // 'type': 'audio/mp3' 
         'type': 'audio/wav' 
         });
-
-
-        var result = sendAudioFile(blob);
-        console.log(result)
+        sendAudioFile(blob);
 
 
   });

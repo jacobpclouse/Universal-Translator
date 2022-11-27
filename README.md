@@ -31,3 +31,7 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - How to translate text with python: https://medium.com/analytics-vidhya/how-to-translate-text-with-python-9d203139dcf5
 - How to change the language of Google speech recognition: https://stackoverflow.com/questions/49732536/how-to-change-the-language-of-google-speech-recognition
 - Google Text To Speech Languages and Accents: https://gtts.readthedocs.io/en/latest/module.html#languages-gtts-lang
+- Delete contents of directory while leaving directory itself: https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder
+- Return a JSON response from fetch: https://www.reddit.com/r/flask/comments/vj4ewj/html_javascript_and_flask_to_upload_an_audio_file/
+- https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically: https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically
+

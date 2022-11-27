@@ -141,22 +141,10 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
 # Routes
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 @app.route('/',methods=['GET', 'POST'])
-# @app.route('/',methods=['GET'])
-def dashboard():
+@app.route('/audioUpload',methods=['GET', 'POST'])
+def translate():
     dashboardHeader = "Speech to Speech" # in base temp, basically what this page does
     title = "Speech to Speech - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
-    
-    translated = request.args.get('translated')
-    # translated = request.args.get('translated', default = 1, type = str)
-
-    # return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = translated)
-    return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = translated)
-
-
-@app.route('/audioUpload',methods=['POST'])
-def translate():
-    dashboardHeader = "IT WORKED" # in base temp, basically what this page does
-    title = "IT WORKED" # in base temp, actual page title in browser
     
     returned_translated = "Translated text will display here"
 
@@ -198,16 +186,9 @@ def translate():
         returned_translated = transcribe_languages(uploadFolderPath,outputWAVName,sourceLanguage,destinationLanguage)
         print(returned_translated)
         # 
-
-    # return redirect(url_for('dashboard', translated = returned_translated))  
-    return redirect(url_for('dashboard', translated = returned_translated), code=307)  
-    # return redirect(url_for('dashboard', html_title = title, dash_head = dashboardHeader, translated = returned_translated))    
-    
-    
-    
-    #     return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
-    # else:
-    #     return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
+        return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+    else:
+        return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
     # return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
     #return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
 
