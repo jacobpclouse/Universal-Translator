@@ -19,10 +19,15 @@ app = Flask(__name__)
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Variables
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # paths to JSON files stored in vars
 JSONSourceLanguagesPath = './static/assets/languages.json'
 JSONgTTSPath = './static/assets/languagesOrig.json'
 
+textToReturnToFrontEnd = "RETURNTHISTEXTTOFRONTEND"
+mp3ToReturnToFrontEnd = "RETURNTHISMP3TOFRONTEND"
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Functions
@@ -120,7 +125,8 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
             AbbrgTTSLang = getSourceLangAbbr(destLang,JSONgTTSPath)
             textToSpeech = gTTS(translated, lang=AbbrgTTSLang)
             # textToSpeech.save(f'{pathToFile}outText_{filename}.mp3')
-            textToSpeech.save(f'{pathToFile}RETURNTOFRONTEND.mp3')
+            #textToSpeech.save(f'{pathToFile}RETURNTOFRONTEND.mp3')
+            textToSpeech.save(f'{pathToFile}{mp3ToReturnToFrontEnd}.mp3')
 
         else:
             print(f"Not a Dict type -- \n type is: {type(transcription)}")
@@ -129,11 +135,13 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
             # converting to speech - use english as it failed
             textToSpeech = gTTS(translated, lang='en')
             # textToSpeech.save(f'outText_{filename}.mp3')
-            textToSpeech.save(f'{pathToFile}RETURNTOFRONTEND.mp3')
+            #textToSpeech.save(f'{pathToFile}RETURNTOFRONTEND.mp3')
+            textToSpeech.save(f'{pathToFile}{mp3ToReturnToFrontEnd}.mp3')
 
     # # # save string to file
     # text_file = open(f"{pathToFile}outText_{filename}.txt", "w")
-    text_file = open(f"{pathToFile}RETURNTHISTEXTTOFRONTEND.txt", "w")
+    #text_file = open(f"{pathToFile}RETURNTHISTEXTTOFRONTEND.txt", "w")
+    text_file = open(f"{pathToFile}{textToReturnToFrontEnd}.txt", "w")
     n = text_file.write(translated)
     text_file.close()
     return translated
@@ -188,25 +196,35 @@ def translate():
         # 
 
 # """ This Will let the user download the file, then deletes all files in outbound and uploads """
-        try:
-        #     #return send_from_directory("./OUTBOUND","encryptedMessage.mp3",as_attachment=True)
-        #     #send_from_directory("./UPLOADS","mykey.key",as_attachment=True)
-            
-            return send_from_directory("./UPLOADS","RETURNTOFRONTEND.mp3",as_attachment=True)
-            
-        except FileNotFoundError:
-            os.abort(404)
-
-        finally:
-        #     # this cleans out both upload and outbound folders
-            emptyFolder("./UPLOADS")
             
     # flash(returned_translated)
-        return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
-    elif request.method == 'GET':
-        return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
+    return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+
     # return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
     # return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+
+
+
+
+# -=-=-=
+@app.route('/returnResults',methods=['GET', 'POST'])
+def seperateRoute():
+    print("Seperate Route, opening up files")
+    uploadFolderPath = "./UPLOADS/"
+
+    dashboardHeader = "Speech to Speech" # in base temp, basically what this page does
+    title = "Speech to Speech - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
+    
+    """ PUT AN IF EMPTY CATCH STATEMENT HERE for empty uploads """
+
+
+    # getting data to send
+    returned_translated = open(f"{uploadFolderPath}{textToReturnToFrontEnd}.txt", "r")
+    print(returned_translated)
+    
+
+
+    return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
 
 
 

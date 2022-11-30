@@ -17,7 +17,8 @@ const sendAudioFile = file => {
     mode: 'no-cors',
     method: 'POST',
     body: formData
-  });
+  })
+  // .then((responseData) => {console.log(responseData)});
 };
 
 
