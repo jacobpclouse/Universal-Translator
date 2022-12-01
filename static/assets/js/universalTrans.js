@@ -75,25 +75,26 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
 // // ----------------------------------
 
+// Tried flipping languagues with javascript but it didn't end up working
 // https://stackoverflow.com/questions/33765865/how-to-swap-two-dropdownlists-with-one-button-using-javascript
 
-const swapButton = document.getElementById('swap');
+// const swapButton = document.getElementById('swap');
 
-// Event commences swap
-swapButton.addEventListener('click', function() {
-  let currentSource = document.getElementById('sourceLangID').value;
-  let currentDestination = document.getElementById('destinationLangID').value;
+// // Event commences swap
+// swapButton.addEventListener('click', function() {
+//   let currentSource = document.getElementById('sourceLangID').value;
+//   let currentDestination = document.getElementById('destinationLangID').value;
 
-  temp=currentDestination;
+//   temp=currentDestination;
 
-  console.log(`Source: ${currentSource}, Destination: ${currentDestination}`)
+//   console.log(`Source: ${currentSource}, Destination: ${currentDestination}`)
 
-  currentSource.value = currentDestination.value
-  currentSource = currentDestination
+//   currentSource.value = currentDestination.value
+//   currentSource = currentDestination
 
-  currentDestination.value = temp.value
-  currentDestination = temp
+//   currentDestination.value = temp.value
+//   currentDestination = temp
 
   
-  console.log("Swapped!")
-});
+//   console.log("Swapped!")
+// });

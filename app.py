@@ -28,9 +28,13 @@ app.config['SESSION_TYPE'] = 'filesystem'
 JSONSourceLanguagesPath = './static/assets/languages.json'
 JSONgTTSPath = './static/assets/languagesOrig.json'
 
+# File and folder Names
 textToReturnToFrontEnd = "RETURNTHISTEXTTOFRONTEND"
 mp3ToReturnToFrontEnd = "RETURNTHISMP3TOFRONTEND"
 uploadFolderPath = "./UPLOADS/"
+storeSourceLang = 'sourceLang'
+storeDestLang = 'destLang'
+
 ALLOWED_EXTENSIONS = set(['txt'])
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -156,8 +160,6 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
             textToSpeech.save(f'{pathToFile}{mp3ToReturnToFrontEnd}.mp3')
 
     # # # save string to file
-    # text_file = open(f"{pathToFile}outText_{filename}.txt", "w")
-    #text_file = open(f"{pathToFile}RETURNTHISTEXTTOFRONTEND.txt", "w")
     text_file = open(f"{pathToFile}{textToReturnToFrontEnd}.txt", "w")
     n = text_file.write(translated)
     text_file.close()
@@ -199,13 +201,23 @@ def translate():
         print(sourceLanguage)
         print(destinationLanguage)
 
+
        
-        # save to file
-        # with open(os.path.abspath(f'{uploadFolderPath}{outputMP3Name}.mp3'), 'wb') as f:
+        # save sound to file
         with open(os.path.abspath(f'{uploadFolderPath}{outputWAVName}.wav'), 'wb') as f:
             f.write(audioRecordingData)
 
+        # save souce to file
+        text_file_source = open(f"{uploadFolderPath}{storeSourceLang}.txt", "w")
+        z = text_file_source.write(sourceLanguage)
+        print(z)
+        text_file_source.close()
 
+        # save destination to file
+        text_file_dest = open(f"{uploadFolderPath}{storeDestLang}.txt", "w")
+        y = text_file_dest.write(destinationLanguage)
+        print(y)
+        text_file_dest.close()
 
         # execute transcription function
         returned_translated = transcribe_languages(uploadFolderPath,outputWAVName,sourceLanguage,destinationLanguage)
@@ -216,9 +228,6 @@ def translate():
             
     # flash(returned_translated)
     return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
-
-    # return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
-    # return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
 
 
 
@@ -238,8 +247,18 @@ def seperateRoute():
     openedFile = open(f"{uploadFolderPath}{textToReturnToFrontEnd}.txt", "r")
     returned_translated = openedFile.read()
     print(f"Translated Text: {returned_translated}")
+
+    # Swap languages - open source and dest files
+    previousSourceFile = open(f"{uploadFolderPath}{storeSourceLang}.txt", "r")
+    previousSource = previousSourceFile.read()
+    print(f"Previous Source: {previousSource}")
+
+    previousDestFile = open(f"{uploadFolderPath}{storeDestLang}.txt", "r")
+    previousDest = previousDestFile.read()
+    print(f"Previous Source: {previousDest}")
+
     
-    return render_template('returnTranslated.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+    return render_template('returnTranslated.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated, prev_source_lang = previousSource, prev_dest_lang = previousDest)
 
 
 

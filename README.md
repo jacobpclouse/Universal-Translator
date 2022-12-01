@@ -38,3 +38,4 @@ Translates over 70 languages using Bootstrap, Python, Flask, JSON, REST APIs and
 - Font Awesome v5 icons: https://fontawesome.com/v5/search
 - how to swap two dropdownlists with one button using javascript: https://stackoverflow.com/questions/33765865/how-to-swap-two-dropdownlists-with-one-button-using-javascript
 - Get selected value in dropdown list using JavaScript: https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
+- How to set the default value for an HTML select element ?: https://www.geeksforgeeks.org/how-to-set-the-default-value-for-an-html-select-element/
