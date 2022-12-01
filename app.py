@@ -28,14 +28,28 @@ app.config['SESSION_TYPE'] = 'filesystem'
 JSONSourceLanguagesPath = './static/assets/languages.json'
 JSONgTTSPath = './static/assets/languagesOrig.json'
 
+# File and folder Names
 textToReturnToFrontEnd = "RETURNTHISTEXTTOFRONTEND"
 mp3ToReturnToFrontEnd = "RETURNTHISMP3TOFRONTEND"
 uploadFolderPath = "./UPLOADS/"
-ALLOWED_EXTENSIONS = set(['txt'])
+storeSourceLang = 'sourceLang'
+storeDestLang = 'destLang'
+
+ALLOWED_EXTENSIONS = set(['txt','text'])
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Functions
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+# --- Function to print out my Logo ---
+def myLogo():
+    print("Created and Tested by: ")
+    print("   __                  _         ___ _                       ")
+    print("   \ \  __ _  ___ ___ | |__     / __\ | ___  _   _ ___  ___  ")
+    print("    \ \/ _` |/ __/ _ \| '_ \   / /  | |/ _ \| | | / __|/ _ \ ")
+    print(" /\_/ / (_| | (_| (_) | |_) | / /___| | (_) | |_| \__ \  __/ ")
+    print(" \___/ \__,_|\___\___/|_.__/  \____/|_|\___/ \__,_|___/\___| ")
+
 
 # --- Function used to find ending type for file AND checking to make sure that it is an allowed type
 def allowed_file(filename):
@@ -156,8 +170,6 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
             textToSpeech.save(f'{pathToFile}{mp3ToReturnToFrontEnd}.mp3')
 
     # # # save string to file
-    # text_file = open(f"{pathToFile}outText_{filename}.txt", "w")
-    #text_file = open(f"{pathToFile}RETURNTHISTEXTTOFRONTEND.txt", "w")
     text_file = open(f"{pathToFile}{textToReturnToFrontEnd}.txt", "w")
     n = text_file.write(translated)
     text_file.close()
@@ -199,26 +211,33 @@ def translate():
         print(sourceLanguage)
         print(destinationLanguage)
 
+
        
-        # save to file
-        # with open(os.path.abspath(f'{uploadFolderPath}{outputMP3Name}.mp3'), 'wb') as f:
+        # save sound to file
         with open(os.path.abspath(f'{uploadFolderPath}{outputWAVName}.wav'), 'wb') as f:
             f.write(audioRecordingData)
 
+        # save souce to file
+        text_file_source = open(f"{uploadFolderPath}{storeSourceLang}.txt", "w")
+        z = text_file_source.write(sourceLanguage)
+        print(z)
+        text_file_source.close()
 
+        # save destination to file
+        text_file_dest = open(f"{uploadFolderPath}{storeDestLang}.txt", "w")
+        y = text_file_dest.write(destinationLanguage)
+        print(y)
+        text_file_dest.close()
 
         # execute transcription function
         returned_translated = transcribe_languages(uploadFolderPath,outputWAVName,sourceLanguage,destinationLanguage)
         print(returned_translated)
-        # 
+         
+        # logo prints when done
+        myLogo()
 
-# """ This Will let the user download the file, then deletes all files in outbound and uploads """
-            
     # flash(returned_translated)
     return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
-
-    # return render_template('translate.html', html_title = title, dash_head = dashboardHeader)
-    # return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
 
 
 
@@ -238,8 +257,20 @@ def seperateRoute():
     openedFile = open(f"{uploadFolderPath}{textToReturnToFrontEnd}.txt", "r")
     returned_translated = openedFile.read()
     print(f"Translated Text: {returned_translated}")
+
+    # Swap languages - open source and dest files
+    previousSourceFile = open(f"{uploadFolderPath}{storeSourceLang}.txt", "r")
+    previousSource = previousSourceFile.read()
+    print(f"Previous Source: {previousSource}")
+
+    previousDestFile = open(f"{uploadFolderPath}{storeDestLang}.txt", "r")
+    previousDest = previousDestFile.read()
+    print(f"Previous Source: {previousDest}")
+
     
-    return render_template('returnTranslated.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+    # logo prints when done
+    myLogo()
+    return render_template('returnTranslated.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated, prev_source_lang = previousSource, prev_dest_lang = previousDest)
 
 
 
@@ -279,20 +310,47 @@ def fileUpload():
         if file and allowed_file(file.filename):
             # GRABBING FORM INFO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             # getting input with source = sourceLangID in HTML form
-            source_lang = request.form.get("sourceLangID")
+            source_lang = request.form.get("sourceLang")
+
             # getting input with dest = destinationLangID in HTML form
-            destination_lang = request.form.get("destinationLangID")
+            destination_lang = request.form.get("destinationLang")
 
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
 
             # Filename below - Important for functions 
-            filename = "Temp_Pic_Upload." + extensionType
+            filename = "Translated_Text." + extensionType
 
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(f"{uploadFolderPath}{filename}")
             uploaded_file = secureTheFile
+            print(f"Uploaded file: {uploaded_file}")
 
-    ''' OPEN DOC, CONVERT FROM SOURCE LANGUAGE TO DEST LANGUAGE, SAVE TO FILE, RETURN '''
+            # open file
+            openedFile = open(f"{uploadFolderPath}{filename}", "r")
+            text_to_translate = openedFile.read()
+            print(f"Text to translate: {text_to_translate}")
+
+            print(f"Source Language: {source_lang}")
+            print(f"Destination Language: {destination_lang}")
+
+            # translating data
+            translated = MyMemoryTranslator(source=source_lang, target=destination_lang).translate(text=text_to_translate)
+            print(translated)
+
+            # save sound to file
+            newOutText = open(f"{uploadFolderPath}{filename}", "w")
+            x = newOutText.write(translated)
+            print(x)
+            newOutText.close()
+
+            """ This Will let the user download the file """
+            try:
+                # logo prints when done
+                myLogo()
+                return send_from_directory(uploadFolderPath,filename,as_attachment=True)
+            except FileNotFoundError:
+                os.abort(404)
 
     return render_template('fileUpload.html', html_title = title, dash_head = dashboardHeader)
 

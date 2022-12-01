@@ -12,6 +12,11 @@
 <div>
         <label for="sourceLang">Choose source language:</label>
         <select name="sourceLang" id="sourceLangID">
+
+          {% block previous_destination %}
+          <option selected value="{{prev_dest_lang}}">{{prev_dest_lang}}</option>
+          {% endblock %}
+
           <option value="afrikaans">afrikaans</option>
           <option value="albanian">albanian</option>
           <option value="amharic">amharic</option>
@@ -84,10 +89,6 @@
           <option value="vietnamese">vietnamese</option>
           <option value="zulu">zulu</option>
 
-          <!-- <option value="en-US">English</option>
-          <option value="fr-FR">French</option>
-          <option value="es-ES">Spanish</option>
-          <option value="tr-TR">Turkish</option> -->
         </select>
 </div>
 
@@ -96,6 +97,11 @@
         <!-- Choose destination/target language dropdown-->
         <label for="destinationLang">Choose destination/target language:</label>
         <select name="destinationLang" id="destinationLangID">
+
+          {% block previous_source %}
+          <option selected value="{{prev_source_lang}}">{{prev_source_lang}}</option>
+          {% endblock %}
+
           <option value="afrikaans">afrikaans</option>
           <option value="albanian">albanian</option>
           <option value="amharic">amharic</option>
@@ -167,18 +173,14 @@
           <option value="uzbek">uzbek</option>
           <option value="vietnamese">vietnamese</option>
           <option value="zulu">zulu</option>
-
-
-          <!-- <option value="en-US">English</option>
-          <option value="fr-FR">French</option>
-          <option value="es-ES">Spanish</option>
-          <option value="tr-TR">Turkish</option> -->
         </select>
 </div>
 
         <!-- Start and stop buttons for audio -->
         <button id="start">Start</button>
         <button id="stop">Stop</button>
+        <br>
+        <!-- <button id="swap">Swap</button> -->
 
         <!-- Download your recorded audio button  -->
         <button id="download">Download Your Audio </button>
