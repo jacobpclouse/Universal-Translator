@@ -35,7 +35,7 @@ uploadFolderPath = "./UPLOADS/"
 storeSourceLang = 'sourceLang'
 storeDestLang = 'destLang'
 
-ALLOWED_EXTENSIONS = set(['txt'])
+ALLOWED_EXTENSIONS = set(['txt','text'])
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Functions
@@ -224,8 +224,6 @@ def translate():
         print(returned_translated)
         # 
 
-# """ This Will let the user download the file, then deletes all files in outbound and uploads """
-            
     # flash(returned_translated)
     return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
 
@@ -298,20 +296,45 @@ def fileUpload():
         if file and allowed_file(file.filename):
             # GRABBING FORM INFO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             # getting input with source = sourceLangID in HTML form
-            source_lang = request.form.get("sourceLangID")
+            source_lang = request.form.get("sourceLang")
+
             # getting input with dest = destinationLangID in HTML form
-            destination_lang = request.form.get("destinationLangID")
+            destination_lang = request.form.get("destinationLang")
 
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
 
             # Filename below - Important for functions 
-            filename = "Temp_Pic_Upload." + extensionType
+            filename = "Translated_Text." + extensionType
 
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(f"{uploadFolderPath}{filename}")
             uploaded_file = secureTheFile
+            print(f"Uploaded file: {uploaded_file}")
 
-    ''' OPEN DOC, CONVERT FROM SOURCE LANGUAGE TO DEST LANGUAGE, SAVE TO FILE, RETURN '''
+            # open file
+            openedFile = open(f"{uploadFolderPath}{filename}", "r")
+            text_to_translate = openedFile.read()
+            print(f"Text to translate: {text_to_translate}")
+
+            print(f"Source Language: {source_lang}")
+            print(f"Destination Language: {destination_lang}")
+
+            # translating data
+            translated = MyMemoryTranslator(source=source_lang, target=destination_lang).translate(text=text_to_translate)
+            print(translated)
+
+            # save sound to file
+            newOutText = open(f"{uploadFolderPath}{filename}", "w")
+            x = newOutText.write(translated)
+            print(x)
+            newOutText.close()
+
+            """ This Will let the user download the file """
+            try:
+                return send_from_directory(uploadFolderPath,filename,as_attachment=True)
+            except FileNotFoundError:
+                os.abort(404)
 
     return render_template('fileUpload.html', html_title = title, dash_head = dashboardHeader)
 
