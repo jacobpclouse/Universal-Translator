@@ -6,6 +6,8 @@
 -->
 <html>
 	<head>
+		  <!-- Favicon  static/images/favicon.svg-->
+		  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='/images/favicon.svg') }}">
 		  <!-- Title -->
 		{% block header_title %}
 		  <title class="html_title"> {{html_title}}</title> 
@@ -39,9 +41,9 @@
 							<ul>
 								<!-- Change to different routes -->
 								<li><a href="{{ url_for('translate')}}" id="top-link"><span class="icon solid fa-language">Speech to Speech</span></a></li>
-								<li><a href="#portfolio" id="portfolio-link"><span class="icon solid fa-th">Portfolio</span></a></li>
-								<li><a href="#about" id="about-link"><span class="icon solid fa-user">About Me</span></a></li>
+								<li><a href="{{ url_for('fileUpload')}}" id="about-link"><span class="icon solid fa-file">File Upload</span></a></li>
 								<li><a href="#contact" id="contact-link"><span class="icon solid fa-envelope">Contact</span></a></li>
+								<li><a href="#portfolio" id="portfolio-link"><span class="icon solid fa-th">Portfolio</span></a></li>
 							</ul>
 						</nav>
 

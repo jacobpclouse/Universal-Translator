@@ -243,6 +243,16 @@ def getWav():
 
 
 
+# this route will allow user to upload a file, translate it and download it
+@app.route('/fileUpload',methods=['GET', 'POST'])
+def fileUpload():
+
+    dashboardHeader = "File Upload" # in base temp, basically what this page does
+    title = "File Upload - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
+    
+
+    return render_template('fileUpload.html', html_title = title, dash_head = dashboardHeader)
+
 
 # main statement - used to set dev mode
 if __name__ == '__main__':
