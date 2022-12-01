@@ -36,4 +36,4 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically: https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically
 - Stream audio from flask to front end: https://gist.github.com/hosackm/289814198f43976aff9b#file-flaskaudiostream-py-L10
 - Font Awesome v5 icons: https://fontawesome.com/v5/search
-
+- 
