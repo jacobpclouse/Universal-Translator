@@ -1,5 +1,5 @@
 # Universal-Translator
-Translates any language using Bootstrap, Python, Flask, REST APIs and more!
+Translates over 70 languages using Bootstrap, Python, Flask, JSON, REST APIs and more!
 
 ## Resources:
 - Front end used was from the website HTML5UP - Link: https://html5up.net/prologue
@@ -36,4 +36,5 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically: https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically
 - Stream audio from flask to front end: https://gist.github.com/hosackm/289814198f43976aff9b#file-flaskaudiostream-py-L10
 - Font Awesome v5 icons: https://fontawesome.com/v5/search
-
+- how to swap two dropdownlists with one button using javascript: https://stackoverflow.com/questions/33765865/how-to-swap-two-dropdownlists-with-one-button-using-javascript
+- Get selected value in dropdown list using JavaScript: https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
