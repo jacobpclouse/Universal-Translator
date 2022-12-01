@@ -219,12 +219,13 @@ def seperateRoute():
 
 
     # getting data to send
-    returned_translated = open(f"{uploadFolderPath}{textToReturnToFrontEnd}.txt", "r")
-    print(returned_translated)
+    openedFile = open(f"{uploadFolderPath}{textToReturnToFrontEnd}.txt", "r")
+    returned_translated = openedFile.read()
+    print(f"Translated Text: {returned_translated}")
     
 
 
-    return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+    return render_template('returnTranslated.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
 
 
 

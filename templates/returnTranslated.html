@@ -183,6 +183,12 @@
     </header>
 
     <footer>
+      {% block translated_block %}
+        <h3>
+          Translated text: {{ translated }}
+        </h3>
+      {% endblock %}
+
         <a class="button scrolly" href="{{ url_for('seperateRoute') }}">Submit Data</a>
         
         <a id="download" class="button scrolly">Download</a> 
