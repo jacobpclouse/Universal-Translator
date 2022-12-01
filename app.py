@@ -14,6 +14,8 @@ from deep_translator import MyMemoryTranslator
 import json
 from gtts import gTTS
 from pathlib import Path
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
@@ -29,10 +31,22 @@ JSONgTTSPath = './static/assets/languagesOrig.json'
 textToReturnToFrontEnd = "RETURNTHISTEXTTOFRONTEND"
 mp3ToReturnToFrontEnd = "RETURNTHISMP3TOFRONTEND"
 uploadFolderPath = "./UPLOADS/"
+ALLOWED_EXTENSIONS = set(['txt'])
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Functions
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+# --- Function used to find ending type for file AND checking to make sure that it is an allowed type
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+# --- Function used to find ending type for file only (for creating temp file in UPLOADS)
+def getExtension(inputFile):
+    return '.' and inputFile.rsplit(".",1)[1].lower()
+
 
 # --- Function to delete files inside directory (without deleting directory itself) ---
 def emptyFolder(directoryPath):
@@ -247,9 +261,38 @@ def getWav():
 @app.route('/fileUpload',methods=['GET', 'POST'])
 def fileUpload():
 
-    dashboardHeader = "File Upload" # in base temp, basically what this page does
-    title = "File Upload - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
+    dashboardHeader = "Text File Upload" # in base temp, basically what this page does
+    title = "Text File Upload - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
     
+    # for post data from form
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            # GRABBING FORM INFO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            # getting input with source = sourceLangID in HTML form
+            source_lang = request.form.get("sourceLangID")
+            # getting input with dest = destinationLangID in HTML form
+            destination_lang = request.form.get("destinationLangID")
+
+            secureTheFile = secure_filename(file.filename)
+            extensionType = getExtension(secureTheFile)
+
+            # Filename below - Important for functions 
+            filename = "Temp_Pic_Upload." + extensionType
+
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            uploaded_file = secureTheFile
+
+    ''' OPEN DOC, CONVERT FROM SOURCE LANGUAGE TO DEST LANGUAGE, SAVE TO FILE, RETURN '''
 
     return render_template('fileUpload.html', html_title = title, dash_head = dashboardHeader)
 

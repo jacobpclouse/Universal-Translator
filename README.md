@@ -34,4 +34,6 @@ Translates any language using Bootstrap, Python, Flask, REST APIs and more!
 - Delete contents of directory while leaving directory itself: https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder
 - Return a JSON response from fetch: https://www.reddit.com/r/flask/comments/vj4ewj/html_javascript_and_flask_to_upload_an_audio_file/
 - https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically: https://stackoverflow.com/questions/15721679/update-and-render-a-value-from-flask-periodically
+- Stream audio from flask to front end: https://gist.github.com/hosackm/289814198f43976aff9b#file-flaskaudiostream-py-L10
+- Font Awesome v5 icons: https://fontawesome.com/v5/search
 
