@@ -41,6 +41,16 @@ ALLOWED_EXTENSIONS = set(['txt','text'])
 # Functions
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+# --- Function to print out my Logo ---
+def myLogo():
+    print("Created and Tested by: ")
+    print("   __                  _         ___ _                       ")
+    print("   \ \  __ _  ___ ___ | |__     / __\ | ___  _   _ ___  ___  ")
+    print("    \ \/ _` |/ __/ _ \| '_ \   / /  | |/ _ \| | | / __|/ _ \ ")
+    print(" /\_/ / (_| | (_| (_) | |_) | / /___| | (_) | |_| \__ \  __/ ")
+    print(" \___/ \__,_|\___\___/|_.__/  \____/|_|\___/ \__,_|___/\___| ")
+
+
 # --- Function used to find ending type for file AND checking to make sure that it is an allowed type
 def allowed_file(filename):
     return '.' in filename and \
@@ -222,7 +232,9 @@ def translate():
         # execute transcription function
         returned_translated = transcribe_languages(uploadFolderPath,outputWAVName,sourceLanguage,destinationLanguage)
         print(returned_translated)
-        # 
+         
+        # logo prints when done
+        myLogo()
 
     # flash(returned_translated)
     return render_template('translate.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
@@ -256,6 +268,8 @@ def seperateRoute():
     print(f"Previous Source: {previousDest}")
 
     
+    # logo prints when done
+    myLogo()
     return render_template('returnTranslated.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated, prev_source_lang = previousSource, prev_dest_lang = previousDest)
 
 
@@ -332,6 +346,8 @@ def fileUpload():
 
             """ This Will let the user download the file """
             try:
+                # logo prints when done
+                myLogo()
                 return send_from_directory(uploadFolderPath,filename,as_attachment=True)
             except FileNotFoundError:
                 os.abort(404)

@@ -1,14 +1,14 @@
-Plan
+Terv
 
-Reprogrammez vos tests à ce week-end :
-Pentest et CYSA+
+Ütemezze át a teszteket erre a hétvégére:
+Pentest és Cysa+
 
-Si vous échouez, faites-le le week-end prochain. 
+Ha nem sikerül, akkor tegye meg a következő hétvégén. 
 
-Si vous échouez à nouveau, concentrez-vous sur la lecture du livre DS+A.
+Ha ismét kudarcot vallasz, koncentrálj a DS+A könyv elolvasására.
 
-Et postuler à des stages.
+És jelentkezés szakmai gyakorlatokra.
 
-(et des trucs de zeleva)
+(és Zheleva cuccok)
 
-RIEN D’AUTRE N’A D’IMPORTANCE, il suffit de renouveler votre certificat avec le programme certmaster
+SEMMI MÁS NEM SZÁMÍT, csak újítsa meg tanúsítványát a certmaster programmal
