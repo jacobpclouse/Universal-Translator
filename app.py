@@ -1,7 +1,7 @@
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Importing Libraries / Modules 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-from flask import Flask, flash, request, redirect, url_for, render_template,send_from_directory, jsonify
+from flask import Flask, flash, request, redirect, url_for, render_template,send_from_directory, jsonify, Response
 import os
 from os import path
 import datetime
@@ -28,6 +28,7 @@ JSONgTTSPath = './static/assets/languagesOrig.json'
 
 textToReturnToFrontEnd = "RETURNTHISTEXTTOFRONTEND"
 mp3ToReturnToFrontEnd = "RETURNTHISMP3TOFRONTEND"
+uploadFolderPath = "./UPLOADS/"
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Functions
@@ -111,7 +112,9 @@ def transcribe_languages(pathToFile,filename,sourceLang,destLang):
             # values are stored in dict in list in dict (who designed this??)
             alternatives = transcription['alternative']
             print(type(alternatives))
-            alt1 = alternatives[1]
+            print(f"In Alternatives we see: {alternatives}")
+            #alt1 = alternatives[1]
+            alt1 = alternatives[0]
             print(type(alt1))
             transcribed_text = alt1['transcript']
             print(type(transcribed_text))
@@ -156,7 +159,7 @@ def translate():
     
     returned_translated = "Translated text will display here"
 
-    uploadFolderPath = "./UPLOADS/"
+    # uploadFolderPath = "./UPLOADS/"
 
     if request.method == 'POST':
         # Grab current date & time from function & store in variable
@@ -206,26 +209,37 @@ def translate():
 
 
 
-# -=-=-=
+# Route used after initial submit that grabs translations and data
 @app.route('/returnResults',methods=['GET', 'POST'])
 def seperateRoute():
     print("Seperate Route, opening up files")
-    uploadFolderPath = "./UPLOADS/"
+    # uploadFolderPath = "./UPLOADS/"
 
     dashboardHeader = "Speech to Speech" # in base temp, basically what this page does
     title = "Speech to Speech - Jacob Clouse Universal Translator" # in base temp, actual page title in browser
     
     """ PUT AN IF EMPTY CATCH STATEMENT HERE for empty uploads """
 
-
     # getting data to send
     openedFile = open(f"{uploadFolderPath}{textToReturnToFrontEnd}.txt", "r")
     returned_translated = openedFile.read()
     print(f"Translated Text: {returned_translated}")
     
-
-
     return render_template('returnTranslated.html', html_title = title, dash_head = dashboardHeader, translated = returned_translated)
+
+
+
+# this route will open up a sepearate page and return the translation
+@app.route('/wav',methods=['GET', 'POST'])
+def getWav():
+    """ PUT AN IF EMPTY CATCH STATEMENT HERE for empty uploads """
+    def generate():
+        with open(f"{uploadFolderPath}{mp3ToReturnToFrontEnd}.mp3", "rb") as fmp3:
+            data = fmp3.read(1024)
+            while data:
+                yield data
+                data = fmp3.read(1024)
+    return Response(generate(), mimetype="audio/mp3")
 
 
 
